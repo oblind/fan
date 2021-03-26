@@ -7,7 +7,8 @@ endif
 
 LINK = fan
 
-CC = g++
+#CROSS_COMPILE = aarch64-linux-gnu-
+CC = $(CROSS_COMPILE)g++
 
 # 编译标志
 #CFLAGS 	+= -Wall -Werror
@@ -38,10 +39,12 @@ CFILES = $(notdir $(shell find . -type f -name "*.c"))
 #SOFILES_DIR = $(shell find . -type f -name "lib*.so")
 #SOFILES		= $(notdir $(SOFILES_DIR))
 #SODIRS		= $(sort $(dir $(SOFILES_DIR)))
+#RASPI = /home/oblind/raspi
+RASPI = /home/oblind/cpp
 #
 #     # 包含所有含有.h文件的目录
 #INCLUDES += $(HDIRS:%=-I%)
-INCLUDES += -Iinclude -I/usr/local/include
+INCLUDES += -Iinclude -I/usr/local/include -I$(RASPI)/include
 
 #$(warning INCLUDES : $(INCLUDES))
 
@@ -54,12 +57,13 @@ LDFLAGS += $(SODIRS:%=-L%)
 # 引用库文件
 #LDFLAGS += $(AFILES:lib%.a=-l%)
 #LDFLAGS += $(SOFILES:lib%.so=-l%)
+#LDFLAGS += -L${RASPI}/lib	#交叉编译
 
-ifeq ($(CONFIG), Debug)
-LDFLAGS += -lwiringPiDev
-else
+#ifeq ($(CONFIG), Debug)
+#LDFLAGS += -lwiringPiDev
+#else
 LDFLAGS += -lwiringPi
-endif
+#endif
 LDFLAGS += -lcrypt -lpthread -lrt
 
 #
