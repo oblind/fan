@@ -53,12 +53,6 @@ int main(int argc, char *argv[]) {
     cmd = i->second;
   } else
     cmd = cmdStart;
-  if(cmd == cmdOn || cmd == cmdOff) {
-    setup();
-    digitalWrite(pin, cmd == cmdOn ? 0 : 1);
-    cout << "fan " << argv[1] << '\n';
-    return 0;
-  }
   { //读取配置
     const char *sec = "fan";
     char s[64];
@@ -80,6 +74,12 @@ int main(int argc, char *argv[]) {
       stopTemp = startTemp - 1;
     base = startTemp - stopTemp;
     cout << "pin: " << pin << ", from " << stopTemp << " to " << startTemp << endl << endl;
+  }
+  if(cmd == cmdOn || cmd == cmdOff) {
+    setup();
+    digitalWrite(pin, cmd == cmdOn ? 0 : 1);
+    cout << "fan " << argv[1] << '\n';
+    return 0;
   }
   ifstream f;
   {
